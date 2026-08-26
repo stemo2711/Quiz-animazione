@@ -760,7 +760,7 @@ async function renderPresenterReveal(state, scores){
   }
 
   const isLastQInRound = (round.key==='mc' && state.questionIdx===QUIZ.mc.length-1) ||
-                          (round.key==='assoc') ||
+                          (round.key==='categorize') ||
                           (round.key==='images' && state.questionIdx===QUIZ.images.length-1);
   const isLastRound = state.roundIdx === ROUNDS.length-1;
   const nextLabel = isLastQInRound ? (isLastRound ? 'Vedi risultati finali 🏁' : 'Prossimo round ▶') : 'Prossima domanda ▶';
