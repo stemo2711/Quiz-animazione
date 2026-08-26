@@ -693,9 +693,8 @@ function renderPresenterQuestion(state, scores){
     bodyHTML = `
       <div class="qnum">IMMAGINE ${state.questionIdx+1} / ${round.count}</div>
       <div class="qtext display">Che film è, e chi è questo personaggio?</div>
-      <img class="qimg" id="hist-img">
+      <img class="qimg" src="${p.image}" alt="${p.name}">
     `;
-    imgTargets.push({sel:'#hist-img', it:p.wiki_it});
   }
 
   app.innerHTML = `
@@ -828,7 +827,7 @@ async function renderPresenterReveal(state, scores){
     const p = QUIZ.images[state.questionIdx];
     bodyHTML = `
       <div class="qnum">SOLUZIONE</div>
-      <img class="qimg" id="hist-img-reveal">
+      <img class="qimg" src="${p.image}" alt="${p.name}">
       <div class="qtext display" style="font-size:26px;">${p.name}, ${p.country}</div>
     `;
     setTimeout(()=> setImgWhenReady(document.getElementById('hist-img-reveal'), p.wiki_it), 0);
@@ -1113,14 +1112,13 @@ async function renderTeamQuestion(state, shell){
     app.innerHTML = shell(`
       <div class="team-round">Round ${state.roundIdx+1} · ${round.title}</div>
       <div class="team-q">Che film è, e chi è questo personaggio?</div>
-      <img class="team-img" id="team-hist-img">
+      <img class="team-img" src="${p.image}" alt="${p.name}">
       <label style="font-size:13px; color:var(--text-dim); display:block; margin-top:12px;">Titolo del film</label>
       <input class="team-text-input" id="text-ans-name" placeholder="Es: Il Re Leone" autocomplete="off" style="margin-top:6px;">
       <label style="font-size:13px; color:var(--text-dim); display:block; margin-top:14px;">Personaggio nell'immagine</label>
       <input class="team-text-input" id="text-ans-country" placeholder="Es: Rafiki" autocomplete="off" style="margin-top:6px;">
       <button class="btn btn-primary" id="submit-btn" style="margin-top:16px;">Invia risposta</button>
     `);
-    setImgWhenReady(document.getElementById('team-hist-img'), p.wiki_it);
     document.getElementById('submit-btn').onclick = async ()=>{
       const nameVal = document.getElementById('text-ans-name').value.trim();
       const countryVal = document.getElementById('text-ans-country').value.trim();
