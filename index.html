@@ -638,6 +638,27 @@ function renderPresenterLobby(scores){
   };
 }
 
+function renderPresenterQuizIntro(scores){
+  app.innerHTML = `
+    <div class="stage">
+      <div class="topbar">
+        <div><div class="eyebrow">Tema del quiz</div><div class="round-name display">${QUIZ_INTRO.title}</div></div>
+        <button class="reset-link" id="reset-btn">azzera partita</button>
+      </div>
+      <div class="center" style="flex-direction:column;">
+        <div class="qtext display">${QUIZ_INTRO.title}</div>
+        <p style="max-width:600px; margin-top:18px; color:var(--text-dim); line-height:1.7;">${QUIZ_INTRO.description}</p>
+        <div class="controls"><button class="btn btn-primary" id="go-btn">Continua \u25b6</button></div>
+      </div>
+      ${scorebarHTML(scores)}
+    </div>`;
+  document.getElementById('go-btn').onclick = async ()=>{
+    await setState({phase:"round-intro", roundIdx:0, questionIdx:0});
+    lastRenderedKey=""; renderPresenter();
+  };
+  document.getElementById('reset-btn').onclick = resetGame;
+}
+  
 function renderPresenterRoundIntro(state, scores){
   const round = ROUNDS[state.roundIdx];
   app.innerHTML = `
@@ -994,6 +1015,15 @@ async function renderTeam(force){
 
   if(state.phase === "lobby"){
     app.innerHTML = shell(`<div class="waiting">In attesa che l'host avvii il quiz<br><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>`);
+    return;
+  }
+  if(state.phase === "quiz-intro"){
+    app.innerHTML = shell(`
+      <div class="waiting" style="padding-top:30px;">
+        <div class="team-q display" style="color:var(--text);">${QUIZ_INTRO.title}</div>
+        <p style="margin-top:14px; line-height:1.6;">${QUIZ_INTRO.description}</p>
+        <p style="margin-top:18px; color:var(--gold);">Si comincia a breve...</p>
+      </div>`);
     return;
   }
   if(state.phase === "round-intro"){
